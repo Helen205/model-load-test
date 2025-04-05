@@ -1,0 +1,113 @@
+
+services:
+  fastapi:
+    build: .
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/app
+      - /app/__pycache__
+    networks:
+      - opensearch-net
+    env_file:
+      - .env
+    depends_on:
+      - nginx
+    command: uvicorn main:app --host 0.0.0.0 --port 80 --reload
+  
+  ollama1:
+    image: ollama/ollama:latest
+    container_name: ollama1
+    ports:
+      - "11434:11434"
+    networks:
+      - opensearch-net
+    volumes:
+      - ollama_data1:/root/.ollama
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ollama2:
+    image: ollama/ollama:latest
+    container_name: ollama2
+    ports:
+      - "11435:11434"
+    networks:
+      - opensearch-net
+    volumes:
+      - ollama_data2:/root/.ollama
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ollama3:
+    image: ollama/ollama:latest
+    container_name: ollama3
+    ports:
+      - "11436:11434"
+    networks:
+      - opensearch-net
+    volumes:
+      - ollama_data3:/root/.ollama
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  ollama4:
+    image: ollama/ollama:latest
+    container_name: ollama4
+    ports:
+      - "11437:11434"
+    networks:
+      - opensearch-net
+    volumes:
+      - ollama_data4:/root/.ollama
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - nginx_logs:/var/log/nginx
+    networks:
+      - opensearch-net
+    restart: always
+    depends_on:
+      - ollama1
+      - ollama2
+      - ollama3
+      - ollama4
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
+networks:
+  opensearch-net:
+    driver: bridge
+
+volumes:
+  ollama_data1:
+  ollama_data2:
+  ollama_data3:
+  ollama_data4:
+  nginx_logs:

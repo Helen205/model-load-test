@@ -173,12 +173,12 @@ class ChatUser(HttpUser):
                     "stream": False,
                     "options": {
                         "num_ctx": 2048,
-                        "num_predict": 512
+                        "num_predict": 1024
                     }
                 }
                 
                 start_time = time.time()
-                with self.client.post("/api/random/api/generate", json=chat_data, catch_response=True) as response:
+                with self.client.post("/api/least-conn/api/generate", json=chat_data, catch_response=True) as response:
                     end_time = time.time()
                     duration = (end_time - start_time) * 1000
                     
@@ -202,13 +202,13 @@ class ChatUser(HttpUser):
                             return
                         response.success()
                         result = pd.Series({
-                            'load_balancer': 'random',
+                            'load_balancer': 'least-conn',
                             'ollama_num': 4,
                             'context_length': 2048,
                             'response_time': float(duration),
-                            'model parameters': '494M',
+                            'model parameters': '1.54B',
                             'model': 'qwen2.5:1.5b',
-                            'num_predict': 512,
+                            'num_predict': 1024,
                             'users': 150,
                             'model_size': '986MB',
                             'RAM': 'AMD Ryzen 7 8845HS',

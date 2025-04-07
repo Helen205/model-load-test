@@ -206,7 +206,7 @@ class ChatUser(HttpUser):
                             'model parameters': '1.54B',
                             'model': 'qwen2.5:1.5b',
                             'num_predict': 1024,
-                            'users': 200,
+                            'users': 250,
                             'model_size': '986MB',
                             'RAM': 'AMD Ryzen 7 8845HS',
                             'GPU': 'Radeon 780M Graphics(8 CPUs)',

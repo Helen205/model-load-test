@@ -175,7 +175,7 @@ class ChatUser(HttpUser):
                 }
                 
                 start_time = time.time()
-                with self.client.post("/api/least-conn/api/generate", json=chat_data, catch_response=True) as response:
+                with self.client.post("/api/ip-hash/api/generate", json=chat_data, catch_response=True) as response:
                     end_time = time.time()
                     duration = (end_time - start_time) * 1000
                     
@@ -199,14 +199,14 @@ class ChatUser(HttpUser):
                             return
                         response.success()
                         result = pd.Series({
-                            'load_balancer': 'least-conn',
+                            'load_balancer': 'ip-hash',
                             'ollama_num': 4,
                             'context_length': 2048,
                             'response_time': float(duration),
                             'model parameters': '1.54B',
                             'model': 'qwen2.5:1.5b',
                             'num_predict': 1024,
-                            'users': 300,
+                            'users': 150,
                             'model_size': '986MB',
                             'RAM': 'AMD Ryzen 7 8845HS',
                             'GPU': 'Radeon 780M Graphics(8 CPUs)',

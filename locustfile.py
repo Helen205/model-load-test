@@ -200,13 +200,13 @@ class ChatUser(HttpUser):
                         response.success()
                         result = pd.Series({
                             'load_balancer': 'least-conn',
-                            'ollama_num': 5,
+                            'ollama_num': 4,
                             'context_length': 2048,
                             'response_time': float(duration),
                             'model parameters': '1.54B',
                             'model': 'qwen2.5:1.5b',
                             'num_predict': 1024,
-                            'users': 200,
+                            'users': 300,
                             'model_size': '986MB',
                             'RAM': 'AMD Ryzen 7 8845HS',
                             'GPU': 'Radeon 780M Graphics(8 CPUs)',

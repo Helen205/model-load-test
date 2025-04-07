@@ -78,6 +78,21 @@ services:
       timeout: 10s
       retries: 3
 
+  ollama5:
+    image: ollama/ollama:latest
+    container_name: ollama5
+    ports:
+      - "11438:11434"
+    networks:
+      - opensearch-net
+    volumes:
+      - ollama_data5:/root/.ollama
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
   nginx:
     image: nginx:latest
     container_name: nginx_proxy
@@ -94,6 +109,7 @@ services:
       - ollama2
       - ollama3
       - ollama4
+      - ollama5
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]
       interval: 30s
@@ -110,4 +126,5 @@ volumes:
   ollama_data2:
   ollama_data3:
   ollama_data4:
+  ollama_data5:
   nginx_logs:

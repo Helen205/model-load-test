@@ -44,7 +44,6 @@ class ChatUser(HttpUser):
                 new_df = new_df[columns]
                 
                 desktop = r"C:\Users\Helen\Documents\GitHub\model-load-test"
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 
 
                 excel_filename = os.path.join(desktop, f"load_test_results.xlsx")
@@ -68,12 +67,10 @@ class ChatUser(HttpUser):
                     
                     if os.path.exists(excel_filename):
                         try:
-                            import shutil
                             
                             existing_df = pd.read_excel(excel_filename, engine='openpyxl')
                             combined_df = pd.concat([existing_df, new_df], ignore_index=True)
                         except:
-                            print("Could not read existing Excel file, creating new one")
                             combined_df = new_df
                     else:
                         combined_df = new_df
@@ -203,13 +200,13 @@ class ChatUser(HttpUser):
                         response.success()
                         result = pd.Series({
                             'load_balancer': 'least-conn',
-                            'ollama_num': 4,
+                            'ollama_num': 5,
                             'context_length': 2048,
                             'response_time': float(duration),
                             'model parameters': '1.54B',
                             'model': 'qwen2.5:1.5b',
                             'num_predict': 1024,
-                            'users': 300,
+                            'users': 150,
                             'model_size': '986MB',
                             'RAM': 'AMD Ryzen 7 8845HS',
                             'GPU': 'Radeon 780M Graphics(8 CPUs)',

@@ -175,7 +175,7 @@ class ChatUser(HttpUser):
                 }
                 
                 start_time = time.time()
-                with self.client.post("/api/ip-hash/api/generate", json=chat_data, catch_response=True) as response:
+                with self.client.post("/api/round-robin/api/generate", json=chat_data, catch_response=True) as response:
                     end_time = time.time()
                     duration = (end_time - start_time) * 1000
                     
@@ -199,7 +199,7 @@ class ChatUser(HttpUser):
                             return
                         response.success()
                         result = pd.Series({
-                            'load_balancer': 'ip-hash',
+                            'load_balancer': 'round-robin',
                             'ollama_num': 4,
                             'context_length': 2048,
                             'response_time': float(duration),
